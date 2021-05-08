@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            background-color: rgb(56, 55, 55);
+            overflow: hidden;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0px;
+            padding: 0;
+        }
+
+
+
+        .dragme {
+            width: 150px;
+            height: 80px;
+            background-color: crimson;
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 20px;
+            color: white;
+            user-select: none;
+            cursor: move;
+            border-radius: 8px;
+            font-size: 22px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            letter-spacing: 3px;
+
+        }
+
+        .cont {
+            width: 100vw;
+            height: 100vh;
+            background-color: rgb(54, 54, 53);
+            padding: 20px !important;
+        }
+
+        .cont:after {
+            position: absolute;
+            content: 'B';
+            font-size: 1260px;
+            transform: rotate(45deg);
+            opacity: .1;
+            top: -300px;
+            z-index: 0;
+            color: crimson;
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="cont">
+        <div id="dragMe" class="dragme">target</div>
+        <div id="dragMe1" class="dragme">target</div>
+        <div id="dragMe1" class="dragme">target</div>
+        <div id="dragMe1" class="dragme">target</div>
+        <div id="dragMe1" class="dragme">target</div>
+        <div id="dragMe1" class="dragme">target</div>
+        <div id="dragMe1" class="dragme">target</div>
+    </div>
+
+
+    <script>
+        // var ele = document.getElementById('dragMe');
+        // var ele1 = document.getElementById('dragMe1');
+        var el = document.querySelectorAll('.cont .dragme');
+
+        class Drags {
+            constructor() {
+                // The current position of mouse
+                self = this
+                this.x = 0;
+                this.y = 0;
+            }
+            mouseDownHandler(e) {
+                // Get the current mouse position
+                self.x = e.clientX;
+                self.y = e.clientY;
+                // Attach the listeners to `document`
+                document.addEventListener('mousemove', self.mouseMoveHandler);
+                document.addEventListener('mouseup', self.mouseUpHandler);
+            };
+            mouseMoveHandler(e) {
+                // How far the mouse has been moved
+                const dx = e.clientX - self.x;
+                const dy = e.clientY - self.y;
+                // Set the position of element
+                e.target.style.top = `${e.target.offsetTop + dy}px`;
+                e.target.style.left = `${e.target.offsetLeft + dx}px`;
+                // Reassign the position of mouse
+                self.x = e.clientX;
+                self.y = e.clientY;
+                // e.stopPropagation()
+            };
+            mouseUpHandler() {
+                // Remove the handlers of `mousemove` and `mouseup`
+                document.removeEventListener('mousemove', self.mouseMoveHandler);
+                document.removeEventListener('mouseup', self.mouseUpHandler);
+            };
+        }
+        let test = new Drags();
+        for (let a = 0; a < el.length; a++) {
+
+            el[a].style.left = `${a * 16}5px`
+
+            // el[a].style.top = `${a + 1}50px`
+
+            el[a].addEventListener('mousedown', test.mouseDownHandler);
+        }
+
+
+
+
+    </script>
+</body>
+
+</html>
